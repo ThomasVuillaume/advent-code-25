@@ -71,7 +71,7 @@ func getSlices(s string) {
 					j += i
 					// fmt.Println("res", res)
 				}
-				if allSameStrings(res) {
+				if len(res) > 1 && allSameStrings(res) {
 					fmt.Println("Invalid ID", s)
 					n, err := strconv.Atoi(s)
 					check(err)
