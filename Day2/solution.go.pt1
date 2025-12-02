@@ -1,0 +1,71 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+)
+
+var sol int = 0
+
+func check(e error) {
+	if e != nil {
+		panic(e)
+	}
+}
+
+func addToSol(num int) {
+	sol += num
+}
+
+func isMirorNum(num int) {
+	stringValue := strconv.Itoa(num)
+	l := len(stringValue)
+	A := stringValue[0 : l/2]
+	B := stringValue[l/2 : l]
+
+	if A == B {
+		//fmt.Println("invalid ID", num)
+		addToSol(num)
+	}
+}
+
+func analyseRange(stringRange string) {
+	minMax := strings.Split(stringRange, "-")
+	min, err := strconv.Atoi(minMax[0])
+	check(err)
+	max, err := strconv.Atoi(minMax[1])
+	check(err)
+	for i := min; i <= max; i++ {
+		//fmt.Println("Analysing", i)
+		isMirorNum(i)
+	}
+}
+
+func main() {
+	// Vars
+	lines := 0
+
+	// File read
+	f, err := os.Open("input.txt")
+	check(err)
+	defer f.Close()
+
+	scanner := bufio.NewScanner(f)
+	var stringRanges []string
+	for scanner.Scan() {
+		lines++
+		line := scanner.Text()
+		stringRanges = strings.Split(line, ",")
+	}
+
+	for _, stringRange := range stringRanges {
+		fmt.Println("Analysing range", stringRange)
+		analyseRange(stringRange)
+	}
+
+	fmt.Println("Solution", sol)
+
+}
